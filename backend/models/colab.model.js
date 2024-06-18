@@ -20,6 +20,7 @@ const colabChema = new mongoose.Schema({
     status: {
         type: String,
         default: "Open"
+        // Open, In Progress, Closed
     },
     applicants: [{type: mongoose.Schema.Types.ObjectId}],
     createdAt: { type: Date, default: Date.now },
