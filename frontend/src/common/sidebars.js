@@ -11,5 +11,4 @@ export const rightSidebar = [
     { to: "/endorsements", title: "Endorsements" },
     { to: "/settings", title: "Settings" },
     { to: "/support", title: "Support" },
-    { to: "/signout", title: "Signout" },
 ]

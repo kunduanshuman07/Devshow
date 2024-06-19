@@ -2,17 +2,26 @@ import { TextField } from '@mui/material'
 import React, { useState } from 'react'
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from "../context/AuthContext"
 
 const LoginPage = () => {
+    const { setAuth, setLoading } = useAuth();
     const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
     const [username, setUsername] = useState();
     const [password, setPassword] = useState();
     const navigate = useNavigate();
+
     const handleSignin = async () => {
         const res = await axios.post(`${BACKEND_URL}/auth/login`, { username, password });
-        if (res.status === 200) {
+        if(res.status===200){
+            const token = res.data.token;
+            const user = res.data.user;
+            localStorage.setItem("authToken", token);
+            localStorage.setItem("user", JSON.stringify(user));
+            setAuth(true);
+            setLoading(false);
             navigate('/');
-        }
+        }   
     }
     return (
         <div className='flex flex-col items-center p-10'>

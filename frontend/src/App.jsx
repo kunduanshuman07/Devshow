@@ -1,15 +1,12 @@
 import React from 'react'
 import RoutesJs from './RoutesJs'
-import { Provider } from 'react-redux'
-import store from "./store/store"
+import { AuthProvider } from "./context/AuthContext"
 
 const App = () => {
   return (
-    <div>
-      <Provider store={store}>
-        <RoutesJs />
-      </Provider>
-    </div>
+    <AuthProvider>
+      <RoutesJs />
+    </AuthProvider>
   )
 }
 

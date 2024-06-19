@@ -1,1 +1,0 @@
-export const titleSelector = state => state.title.titleValue;
