@@ -4,6 +4,7 @@ import DrawerComponent from '../components/DrawerComponent';
 import { sidebar, rightSidebar } from '../common/sidebars';
 import { Routes, Route } from "react-router-dom"
 import FeedPage from '../pages/FeedPage';
+import NewProjectPage from '../pages/NewProjectPage';
 
 const Layout = () => {
     const [drawerState, setDrawerState] = useState(false);
@@ -16,6 +17,7 @@ const Layout = () => {
             <div className='main'>
                 <Routes>
                     <Route path='/' element={<FeedPage />} />
+                    <Route path='/new' element={<NewProjectPage />} />
                 </Routes>
             </div>
         </div>

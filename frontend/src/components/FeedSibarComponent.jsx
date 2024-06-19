@@ -14,8 +14,9 @@ const FeedSibarComponent = () => {
             <TextField
                 placeholder='Find a project...'
                 size='small'
-                sx={{ marginTop: "10px" }}
-
+                sx={{
+                    marginTop: "10px",
+                }}
             />
             <div className='flex flex-col mt-2 mb-2'>
                 <div className='flex mt-2' style={{ cursor: "pointer" }}>
