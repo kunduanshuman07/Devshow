@@ -2,7 +2,9 @@ import { Avatar, IconButton, Tooltip } from '@mui/material'
 import React from 'react'
 import FlareIcon from '@mui/icons-material/Flare';
 import MapsUgcRoundedIcon from '@mui/icons-material/MapsUgcRounded';
+import { useNavigate } from 'react-router-dom';
 const FeedMainComponent = ({projects}) => {
+  const navigate = useNavigate();
   return (
     <div className='w-full p-4 flex flex-col'>
       <h1 className='text-2xl'>Project Home</h1>
@@ -14,7 +16,7 @@ const FeedMainComponent = ({projects}) => {
             <h1 className='text-xs font-bold text-gray-400'>2 months ago</h1>
           </div>
         </div>
-        <div className='flex flex-col p-4 mt-4 bg-[#f8fafc] rounded-lg cursor-pointer'>
+        <div className='flex flex-col p-4 mt-4 bg-[#f8fafc] rounded-lg cursor-pointer' onClick={()=>navigate('/project-detail')}>
           <h1 className='text-sm font-bold'>InfoFusion</h1>
           <p className='mt-2 text-xs'>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum error quos dolor id esse voluptatem asperiores voluptate suscipit, possimus minima tempore dicta animi neque? Laborum eos eius distinctio odit maiores.</p>
           <h1 className='text-xs font-bold mt-2 text-[#94a3b8]'>Techstacks used</h1>
@@ -38,7 +40,7 @@ const FeedMainComponent = ({projects}) => {
             <h1 className='text-xs my-auto'>10</h1>
           </div>
         </div>
-        <a href='/more' className='text-xs mt-2 text-[#0284c7]'>More...</a>
+        <a href='/project-detail' className='text-xs mt-2 text-[#0284c7]'>More...</a>
       </div>
     </div>
   )

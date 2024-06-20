@@ -40,7 +40,7 @@ const DrawerComponent = ({ drawerState, setDrawerState, anchor, sidebar }) => {
                                 borderRadius: "10px",
                                 cursor: "pointer"
                             }
-                        }}>
+                        }} onClick={() => navigate(tabs.to)}>
                             <img src={`/assets/${tabs.title}.svg`} alt={tabs.title} width={15} />
                             <a href={tabs.to} className='ml-3 text-sm'>{tabs.title}</a>
                         </ListItem>
@@ -51,7 +51,7 @@ const DrawerComponent = ({ drawerState, setDrawerState, anchor, sidebar }) => {
                             borderRadius: "10px",
                             cursor: "pointer"
                         }
-                    }}>
+                    }} onClick={handleSignout}>
                         <img src={`/assets/Signout.svg`} alt='Signout' width={15} />
                         <button className='ml-3 text-sm' onClick={handleSignout}>Signout</button>
                     </ListItem>}

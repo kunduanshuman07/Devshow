@@ -5,6 +5,8 @@ import { sidebar, rightSidebar } from '../common/sidebars';
 import { Routes, Route } from "react-router-dom"
 import FeedPage from '../pages/FeedPage';
 import NewProjectPage from '../pages/NewProjectPage';
+import ProfilePage from '../pages/ProfilePage';
+import ProjectDetailPage from '../pages/ProjectDetailPage';
 
 const Layout = () => {
     const [drawerState, setDrawerState] = useState(false);
@@ -18,6 +20,8 @@ const Layout = () => {
                 <Routes>
                     <Route path='/' element={<FeedPage />} />
                     <Route path='/new' element={<NewProjectPage />} />
+                    <Route path='/profile' element={<ProfilePage />} />
+                    <Route path='/project-detail' element={<ProjectDetailPage />} />
                 </Routes>
             </div>
         </div>
