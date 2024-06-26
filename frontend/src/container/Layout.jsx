@@ -7,6 +7,7 @@ import FeedPage from '../pages/FeedPage';
 import NewProjectPage from '../pages/NewProjectPage';
 import ProfilePage from '../pages/ProfilePage';
 import ProjectDetailPage from '../pages/ProjectDetailPage';
+import NetworkPage from '../pages/NetworkPage';
 
 const Layout = () => {
     const [drawerState, setDrawerState] = useState(false);
@@ -22,6 +23,7 @@ const Layout = () => {
                     <Route path='/new' element={<NewProjectPage />} />
                     <Route path='/profile' element={<ProfilePage />} />
                     <Route path='/project-detail' element={<ProjectDetailPage />} />
+                    <Route path='/network' element={<NetworkPage/>}/>
                 </Routes>
             </div>
         </div>

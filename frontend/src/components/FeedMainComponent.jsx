@@ -7,7 +7,7 @@ const FeedMainComponent = ({projects}) => {
   const navigate = useNavigate();
   return (
     <div className='w-full p-4 flex flex-col'>
-      <h1 className='text-2xl'>Project Home</h1>
+      <h1 className='text-2xl'>Projects Home</h1>
       <div className='mt-4 p-4 flex flex-col' style={{ border: "1px solid #cbd5e1", borderRadius: "5px" }}>
         <div className='flex flex-row'>
           <Avatar sx={{ width: "30px", height: "30px", margin: "auto 0px" }} />
