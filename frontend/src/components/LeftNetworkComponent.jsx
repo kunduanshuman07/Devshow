@@ -11,6 +11,11 @@ import ModalComponent from './ModalComponent';
 
 const LeftNetworkComponent = () => {
     const [modalOpen, setModalOpen] = useState(false);
+    const [modalState, setModalState] = useState();
+    const handleModalOpen = (state) => {
+        setModalState(state);
+        setModalOpen(true);
+    }
     const handleClose = () => {
         setModalOpen(false);
     }
@@ -32,12 +37,12 @@ const LeftNetworkComponent = () => {
                 <h1 className='text-sky-700 font-bold text-sm'>My Section</h1>
             </div>
             <div className='mt-2 flex flex-col'>
-                <Button startIcon={<NotificationsNoneIcon />} size='small' sx={{ textTransform: "none", marginRight: "auto", color: "#0e7490" }} onClick={() => setModalOpen(true)}>Notifications</Button>
-                <Button startIcon={<ForumOutlinedIcon />} size='small' sx={{ textTransform: "none", marginRight: "auto", color: "#0e7490" }}>Messages</Button>
+                <Button startIcon={<NotificationsNoneIcon />} size='small' sx={{ textTransform: "none", marginRight: "auto", color: "#0e7490" }} onClick={() => handleModalOpen('Notifications')}>Notifications</Button>
+                <Button startIcon={<ForumOutlinedIcon />} size='small' sx={{ textTransform: "none", marginRight: "auto", color: "#0e7490" }} onClick={() => handleModalOpen('Messages')}>Messages</Button>
                 <Button startIcon={<SaveIcon />} size='small' sx={{ textTransform: "none", marginRight: "auto", color: "#0e7490" }}>Saved Posts</Button>
                 <Button startIcon={<PresentToAllOutlinedIcon />} size='small' sx={{ textTransform: "none", marginRight: "auto", color: "#0e7490" }}>Sent Requests</Button>
             </div>
-            {modalOpen && <ModalComponent modalOpen={modalOpen} handleClose={handleClose} />}
+            {modalOpen && <ModalComponent modalOpen={modalOpen} handleClose={handleClose} modalState={modalState} />}
         </div>
     )
 }
