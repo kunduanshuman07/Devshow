@@ -4,7 +4,7 @@ import FiberManualRecordRoundedIcon from '@mui/icons-material/FiberManualRecordR
 
 const FeedAnnComponent = () => {
   return (
-    <div className='w-1/3 p-4 flex flex-col'>
+    <div className='p-4 flex flex-col sticky top-0'>
       <div className='rounded-lg p-4 flex flex-col' style={{ background: "linear-gradient(to right, #000428, #004e92)" }}>
         <div className='flex flex-row'>
           <img src='/assets/Logo.svg' alt='Logo' width={30} height={30} />

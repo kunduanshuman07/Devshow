@@ -3,8 +3,14 @@ import React, { useRef, useState } from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import { Delete } from '@mui/icons-material';
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
+import ApiLoadingProgress from '../components/ApiLoadingProgress';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const NewProjectPage = () => {
+  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const ImageInputRef = useRef(null);
   const VideoInputRef = useRef(null);
   const handleImageInput = () => {
@@ -13,10 +19,15 @@ const NewProjectPage = () => {
   const handleVideoInput = () => {
     VideoInputRef.current.click();
   }
+  const [title, setTitle] = useState('');
+  const [demoLink, setDemoLink] = useState('');
+  const [description, setDescription] = useState('');
   const [featureValue, setFeatureValue] = useState('');
   const [features, setFeatures] = useState([]);
   const [techValue, setTechValue] = useState('');
-  const [techStacks, setTechstacks] = useState([]);
+  const [techstacks, settechstacks] = useState([]);
+  const [repoLink, setRepoLink] = useState('');
+  const [contributors, setContributors] = useState('');
   const handleAddFeature = () => {
     if (featureValue.trim()) {
       setFeatures([...features, featureValue]);
@@ -27,15 +38,26 @@ const NewProjectPage = () => {
     const newfeatures = features.filter((_, i) => i !== index);
     setFeatures(newfeatures);
   }
-  const handleAddTechstacks = () => {
+  const handleAddtechstacks = () => {
     if (techValue.trim()) {
-      setTechstacks([...techStacks, techValue]);
+      settechstacks([...techstacks, techValue]);
       setTechValue('');
     }
   };
-  const handleDeleteTechstacks = (index) => {
-    const newtechstacks = techStacks.filter((_, i) => i !== index);
-    setTechstacks(newtechstacks);
+  const handleDeletetechstacks = (index) => {
+    const newtechstacks = techstacks.filter((_, i) => i !== index);
+    settechstacks(newtechstacks);
+  }
+  const handleAddProject = async () => {
+    setLoading(true);
+    const res = await axios.post(`${BACKEND_URL}/projects/create-project`, { title, description, demoLink, repoLink, contributors, features, techstacks });
+    if (res.status === 200) {
+      setLoading(false);
+      navigate('/');
+    }
+  }
+  if (loading) {
+    return <ApiLoadingProgress title={'Creating New Project ...'} />
   }
   return (
     <div className='flex flex-col px-72 py-4'>
@@ -44,16 +66,16 @@ const NewProjectPage = () => {
       <div className='py-4 mt-4 flex flex-row' style={{ borderTop: "1px solid #cbd5e1" }}>
         <div className='flex flex-col'>
           <InputLabel required sx={{ fontWeight: "bold", fontSize: "14px", marginBottom: "5px" }}>Title</InputLabel>
-          <TextField size='small' />
+          <TextField size='small' value={title} onChange={(e) => setTitle(e.target.value)} />
         </div>
         <div className='flex flex-col w-full ml-4'>
           <InputLabel required sx={{ fontWeight: "bold", fontSize: "14px", marginBottom: "5px" }}>Live Demo Url (Website Link or any other source)</InputLabel>
-          <TextField size='small' fullWidth />
+          <TextField size='small' fullWidth value={demoLink} onChange={(e) => setDemoLink(e.target.value)} />
         </div>
       </div>
       <div className='pb-4 flex flex-col' style={{ borderBottom: "1px solid #cbd5e1" }}>
         <InputLabel required sx={{ fontWeight: "bold", fontSize: "14px", marginBottom: "5px" }}>Description</InputLabel>
-        <TextField size='small' fullWidth />
+        <TextField size='small' fullWidth value={description} onChange={(e) => setDescription(e.target.value)} />
       </div>
       <div className='w-full flex flex-row'>
         <div className='w-1/2 pt-4 flex flex-col'>
@@ -105,7 +127,7 @@ const NewProjectPage = () => {
                   <InputAdornment position="end">
                     <IconButton
                       color="primary"
-                      onClick={handleAddTechstacks}
+                      onClick={handleAddtechstacks}
                       sx={{ ml: 1, height: '40px', width: '40px' }}
                     >
                       <AddIcon />
@@ -116,11 +138,11 @@ const NewProjectPage = () => {
             />
           </div>
           <List sx={{ display: "flex", flexDirection: "column" }}>
-            {techStacks.map((item, index) => (
+            {techstacks.map((item, index) => (
               <ListItem key={index} style={{ display: "flex" }}>
                 <h1 className='text-xs bg-[#f8fafc] rounded-lg py-1 px-2 mr-2'>{index + 1}. {item}</h1>
                 <Tooltip title='Delete this Feature'>
-                  <IconButton size='small' onClick={() => handleDeleteTechstacks(index)}>
+                  <IconButton size='small' onClick={() => handleDeletetechstacks(index)}>
                     <Delete sx={{ fontSize: "14px" }} />
                   </IconButton>
                 </Tooltip>
@@ -153,19 +175,21 @@ const NewProjectPage = () => {
           </IconButton>
         </div>
       </div>
-      <div className='flex flex-row'  style={{ borderBottom: "1px solid #cbd5e1" }}>
+      <div className='flex flex-row' style={{ borderBottom: "1px solid #cbd5e1" }}>
         <div className='pb-4 flex flex-col mt-4 w-full'>
           <InputLabel sx={{ fontWeight: "bold", fontSize: "14px", marginBottom: "5px" }}>RepoSitory Link</InputLabel>
-          <TextField size='small' fullWidth />
+          <TextField size='small' fullWidth value={repoLink} onChange={(e) => setRepoLink(e.target.value)} />
         </div>
         <div className='pb-4 flex flex-col mt-4 ml-4 w-full'>
           <InputLabel sx={{ fontWeight: "bold", fontSize: "14px", marginBottom: "5px" }}>Contributors (Team Size)</InputLabel>
-          <TextField size='small' fullWidth type='number'/>
+          <TextField size='small' fullWidth type='number' value={contributors} onChange={(e) => setContributors(e.target.value)} />
         </div>
       </div>
-      <Button startIcon={<LibraryAddIcon />} sx={{backgroundColor: "#0369a1", color: "white", textTransform: "none", marginRight: "auto", marginTop: "10px", padding: "5px 20px", ":hover": {
-        backgroundColor: "#0369a1"
-      }}} size='small'>Add Project</Button>
+      <Button startIcon={<LibraryAddIcon />} sx={{
+        backgroundColor: "#0369a1", color: "white", textTransform: "none", marginRight: "auto", marginTop: "10px", padding: "5px 20px", ":hover": {
+          backgroundColor: "#0369a1"
+        }
+      }} size='small' onClick={handleAddProject}>Add Project</Button>
     </div>
   )
 }

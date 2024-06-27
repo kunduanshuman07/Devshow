@@ -12,6 +12,9 @@ const projectSchema = new mongoose.Schema({
     techstacks: {
         type: [String],
     },
+    features: {
+        type: [String],
+    },
     images: {
         type: [String],
     },
@@ -28,7 +31,9 @@ const projectSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         default: null
     },
-    contributors: [{ type: mongoose.Schema.Types.ObjectId }],
+    contributors: {
+        type: Number,
+    },
     comments: [{ type: mongoose.Schema.Types.ObjectId }],
     endorsements: [{ type: mongoose.Schema.Types.ObjectId }],
     createdAt: { type: Date, default: Date.now },

@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 const FeedSibarComponent = () => {
     const navigate = useNavigate();
     return (
-        <div className='w-1/3 p-4 flex flex-col'>
+        <div className='p-4 flex flex-col sticky top-0'>
             <div className='flex'>
                 <h1 className='text-xs mr-auto font-bold my-auto'>Top Projects</h1>
                 <Button startIcon={<LibraryAddIcon />} style={{ backgroundColor: "#0369a1", textTransform: "none", color: "white", fontSize: "10px" }} size='small' onClick={() => navigate('/new')}>New</Button>

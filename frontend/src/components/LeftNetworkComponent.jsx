@@ -9,8 +9,10 @@ import AddIcon from "@mui/icons-material/Add";
 import { Button } from '@mui/material';
 import MessNotificationModal from './MessNotificationModal';
 import { useMessNotifContext } from "../context/MessageNotificationContext"
+import { useNavigate } from 'react-router-dom';
 
 const LeftNetworkComponent = () => {
+    const navigate = useNavigate();
     const { modalOpen, modalState, setModalOpen, setModalState, handleClose } = useMessNotifContext();
     const handleModalOpen = (state) => {
         setModalState(state);
@@ -22,7 +24,7 @@ const LeftNetworkComponent = () => {
                 textTransform: "none", margin: "auto auto auto 0px", color: "white", background: "#0e7490", padding: "5px 20px", ":hover": {
                     color: "white", background: "#0e7490",
                 }
-            }} size='medium'>Create Post</Button>
+            }} size='medium' onClick={() => navigate('/create-post')}>Create Post</Button>
             <div className='bg-slate-200 rounded-lg px-4 py-2 mt-4'>
                 <h1 className='text-sky-700 font-bold text-sm'>Top Activities</h1>
             </div>

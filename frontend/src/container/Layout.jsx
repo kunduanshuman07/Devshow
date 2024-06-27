@@ -8,6 +8,7 @@ import NewProjectPage from '../pages/NewProjectPage';
 import ProfilePage from '../pages/ProfilePage';
 import ProjectDetailPage from '../pages/ProjectDetailPage';
 import NetworkPage from '../pages/NetworkPage';
+import CreatePostPage from '../pages/CreatePostPage';
 
 const Layout = () => {
     const [drawerState, setDrawerState] = useState(false);
@@ -22,8 +23,9 @@ const Layout = () => {
                     <Route path='/' element={<FeedPage />} />
                     <Route path='/new' element={<NewProjectPage />} />
                     <Route path='/profile' element={<ProfilePage />} />
-                    <Route path='/project-detail' element={<ProjectDetailPage />} />
-                    <Route path='/network' element={<NetworkPage/>}/>
+                    <Route path='/project-detail/:id' element={<ProjectDetailPage />} />
+                    <Route path='/network' element={<NetworkPage />} />
+                    <Route path='/create-post' element={<CreatePostPage />} />
                 </Routes>
             </div>
         </div>
