@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import WhatshotIcon from '@mui/icons-material/Whatshot';
 import FeaturedPlayListIcon from '@mui/icons-material/FeaturedPlayList';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
@@ -7,17 +7,14 @@ import PresentToAllOutlinedIcon from '@mui/icons-material/PresentToAllOutlined';
 import SaveIcon from "@mui/icons-material/SaveAlt";
 import AddIcon from "@mui/icons-material/Add";
 import { Button } from '@mui/material';
-import ModalComponent from './ModalComponent';
+import MessNotificationModal from './MessNotificationModal';
+import { useMessNotifContext } from "../context/MessageNotificationContext"
 
 const LeftNetworkComponent = () => {
-    const [modalOpen, setModalOpen] = useState(false);
-    const [modalState, setModalState] = useState();
+    const { modalOpen, modalState, setModalOpen, setModalState, handleClose } = useMessNotifContext();
     const handleModalOpen = (state) => {
         setModalState(state);
         setModalOpen(true);
-    }
-    const handleClose = () => {
-        setModalOpen(false);
     }
     return (
         <div className='flex flex-col p-4 sticky top-0'>
@@ -42,7 +39,7 @@ const LeftNetworkComponent = () => {
                 <Button startIcon={<SaveIcon />} size='small' sx={{ textTransform: "none", marginRight: "auto", color: "#0e7490" }}>Saved Posts</Button>
                 <Button startIcon={<PresentToAllOutlinedIcon />} size='small' sx={{ textTransform: "none", marginRight: "auto", color: "#0e7490" }}>Sent Requests</Button>
             </div>
-            {modalOpen && <ModalComponent modalOpen={modalOpen} handleClose={handleClose} modalState={modalState} />}
+            {modalOpen && <MessNotificationModal modalOpen={modalOpen} handleClose={handleClose} modalState={modalState} />}
         </div>
     )
 }

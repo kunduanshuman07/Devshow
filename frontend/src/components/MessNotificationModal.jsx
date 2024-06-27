@@ -4,7 +4,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import ClearAllIcon from '@mui/icons-material/ClearAll';
 import OpenMessageComponent from './OpenMessageComponent';
 
-const ModalComponent = ({ modalOpen, handleClose, modalState }) => {
+const MessNotificationModal = ({ modalOpen, handleClose, modalState }) => {
     const [openMessage, setOpenMessage] = useState(false);
     const handleMessageClick = () => {
         setOpenMessage(true);
@@ -62,4 +62,4 @@ const ModalComponent = ({ modalOpen, handleClose, modalState }) => {
     )
 }
 
-export default ModalComponent
+export default MessNotificationModal
