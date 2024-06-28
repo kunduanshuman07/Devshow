@@ -1,5 +1,5 @@
 import express from "express"
-import { acceptRequest, allUserConnections, declineRequest, devShowNetworkUsers, pendingConnectionRequests, requestedConnections, sendRequest } from "../controllers/network.controller.js";
+import { acceptRequest, allUserConnections, declineRequest, devShowNetworkUsers, pendingConnectionRequests, requestedConnections, sendRequest, widthdrawRequest } from "../controllers/network.controller.js";
 const router = express.Router();
 
 router.get('/all-users', devShowNetworkUsers);
@@ -9,5 +9,6 @@ router.post('/requested-connections', requestedConnections);
 router.post('/send-request', sendRequest);
 router.post('/decline-request', declineRequest);
 router.post('/accept-request', acceptRequest);
+router.post('/withdraw-request', widthdrawRequest);
 
 export default router;

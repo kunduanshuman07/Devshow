@@ -11,7 +11,7 @@ import MessNotificationModal from './MessNotificationModal';
 import { useMessNotifContext } from "../context/MessageNotificationContext"
 import { useNavigate } from 'react-router-dom';
 
-const LeftNetworkComponent = () => {
+const LeftNetworkComponent = ({ sent }) => {
     const navigate = useNavigate();
     const { modalOpen, modalState, setModalOpen, setModalState, handleClose } = useMessNotifContext();
     const handleModalOpen = (state) => {
@@ -36,12 +36,12 @@ const LeftNetworkComponent = () => {
                 <h1 className='text-sky-700 font-bold text-sm'>My Section</h1>
             </div>
             <div className='mt-2 flex flex-col'>
+                <Button startIcon={<PresentToAllOutlinedIcon />} size='small' sx={{ textTransform: "none", marginRight: "auto", color: "#0e7490" }}>My Posts</Button>
+                <Button startIcon={<SaveIcon />} size='small' sx={{ textTransform: "none", marginRight: "auto", color: "#0e7490" }}>Saved Posts</Button>
                 <Button startIcon={<NotificationsNoneIcon />} size='small' sx={{ textTransform: "none", marginRight: "auto", color: "#0e7490" }} onClick={() => handleModalOpen('Notifications')}>Notifications</Button>
                 <Button startIcon={<ForumOutlinedIcon />} size='small' sx={{ textTransform: "none", marginRight: "auto", color: "#0e7490" }} onClick={() => handleModalOpen('Messages')}>Messages</Button>
-                <Button startIcon={<SaveIcon />} size='small' sx={{ textTransform: "none", marginRight: "auto", color: "#0e7490" }}>Saved Posts</Button>
-                <Button startIcon={<PresentToAllOutlinedIcon />} size='small' sx={{ textTransform: "none", marginRight: "auto", color: "#0e7490" }}>Sent Requests</Button>
             </div>
-            {modalOpen && <MessNotificationModal modalOpen={modalOpen} handleClose={handleClose} modalState={modalState} />}
+            {modalOpen && <MessNotificationModal modalOpen={modalOpen} handleClose={handleClose} modalState={modalState} users={sent} />}
         </div>
     )
 }

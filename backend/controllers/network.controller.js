@@ -87,8 +87,10 @@ export const declineRequest = async (req, res) => {
     try {
         const userOne = await User.findById(id);
         const userTwo = await User.findById(secondId);
-        userOne.requestsReceived = userOne.requestsReceived.filter((userId) => userId !== secondId);
-        userTwo.requestsSent = userTwo.requestsSent.filter((userId) => userId !== id);
+        const idStr = id.toString();
+        const secondIdStr = secondId.toString();
+        userOne.requestsReceived = userOne.requestsReceived.filter((userId) => userId.toString() !== secondIdStr);
+        userTwo.requestsSent = userTwo.requestsSent.filter((userId) => userId.toString() !== idStr);
         await userOne.save();
         await userTwo.save();
         console.log("Success: /v1/network/decline-request -> Request declined succesfully")
@@ -104,10 +106,31 @@ export const acceptRequest = async (req, res) => {
     try {
         const userOne = await User.findById(id);
         const userTwo = await User.findById(secondId);
+        const idStr = id.toString();
+        const secondIdStr = secondId.toString();
+        userOne.requestsReceived = userOne.requestsReceived.filter((userId) => userId.toString() !== secondIdStr);
+        userTwo.requestsSent = userTwo.requestsSent.filter((userId) => userId.toString() !== idStr);
         userOne.connections.push(secondId);
-        userOne.requestsReceived = userOne.requestsReceived.filter((userId) => userId !== secondId);
         userTwo.connections.push(id);
-        userTwo.requestsSent = userTwo.requestsSent.filter((userId) => userId !== id);
+        await userOne.save();
+        await userTwo.save();
+        console.log("Success: /v1/network/accept-request -> Request accepted succesfully")
+        res.status(200).json({ message: "Request accepted succesfully" });
+    } catch (error) {
+        console.log("Error: /v1/network/accept-request ->", error.message);
+        res.status(500).json({ message: "Error: ", error });
+    }
+}
+
+export const widthdrawRequest = async (req, res) => {
+    const { id, secondId } = req.body;
+    try {
+        const userOne = await User.findById(id);
+        const userTwo = await User.findById(secondId);
+        const idStr = id.toString();
+        const secondIdStr = secondId.toString();
+        userTwo.requestsReceived = userTwo.requestsReceived.filter((userId) => userId.toString() !== idStr);
+        userOne.requestsSent = userOne.requestsSent.filter((userId) => userId.toString() !== secondIdStr);
         await userOne.save();
         await userTwo.save();
         console.log("Success: /v1/network/accept-request -> Request accepted succesfully")

@@ -10,7 +10,7 @@ import { convertToIndianFormat } from "../common/timeDateConvertor"
 
 const MiddleNetworkComponent = ({ posts }) => {
     return (
-        <div className='flex flex-col p-4'>
+        <div className='flex flex-col p-4 ml-8'>
             <h1 className='text-2xl mb-2 bg-white'>Community Posts</h1>
             {posts.map((post, index) => (
                 <div className='flex flex-col mt-2 rounded-lg border p-2 cursor-pointer' key={index}>
