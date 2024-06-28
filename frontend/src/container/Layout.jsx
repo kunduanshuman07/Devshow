@@ -10,6 +10,7 @@ import ProjectDetailPage from '../pages/ProjectDetailPage';
 import NetworkPage from '../pages/NetworkPage';
 import CreatePostPage from '../pages/CreatePostPage';
 import ConnectionsNetworkPage from '../pages/ConnectionsNetworkPage';
+import ColabPage from '../pages/ColabPage';
 
 const Layout = () => {
     const [drawerState, setDrawerState] = useState(false);
@@ -28,6 +29,7 @@ const Layout = () => {
                     <Route path='/community' element={<NetworkPage />} />
                     <Route path='/create-post' element={<CreatePostPage />} />
                     <Route path='/my-network' element={<ConnectionsNetworkPage />} />
+                    <Route path='/colab' element={<ColabPage />} />
                 </Routes>
             </div>
         </div>

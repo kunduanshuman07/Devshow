@@ -13,7 +13,7 @@ const ProfileLeft = () => {
         <button className='btn btn-xs bg-[#94a3b8] rounded-lg text-xs text-white py-1'>Node Js</button>
         <button className='btn btn-xs bg-[#94a3b8] rounded-lg text-xs text-white py-1'>MongoDb</button>
       </div>
-      <h1 className='mt-4 text-slate-400 font-bold'>Experience</h1>
+      <h1 className='mt-4 text-slate-400 font-bold'>Current Work Designation</h1>
       <p className='bg-[#f8fafc] rounded-lg p-2 text-sm mt-2'><HdrWeakIcon sx={{marginRight: "10px"}}/> Software Engineer Incedo Inc</p>
       <a className='mt-4 text-sky-600 text-xs font-bold' href='/'><LinkedInIcon sx={{marginRight: "10px"}}/> https://kundu763476.com</a>
       <a className='mt-2 text-sky-600 text-xs font-bold' href='/'><GitHubIcon sx={{marginRight: "10px"}}/> https://kundu763476.com</a>
