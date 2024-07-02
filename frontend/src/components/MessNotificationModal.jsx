@@ -20,7 +20,7 @@ const MessNotificationModal = ({ modalOpen, handleClose, modalState }) => {
             <Box sx={{ background: "white", position: "fixed", width: "400px", maxHeight: "90vh", height: "90vh", border: "none", marginTop: "10vh", borderRadius: "5px", display: "flex", flexDirection: "column", cursor: "pointer", overflow: "auto" }}>
                 {modalState === 'Notifications' ?
                     <>
-                        <div className='flex flex-row mt-2 p-2'>
+                        <div className='flex flex-row mt-2 p-2 sticky top-0'>
                             <h1 className='text-sm text-sky-700 font-bold my-auto'>Notifications</h1>
                             <IconButton sx={{ marginLeft: "auto" }} size='small' onClick={handleClose}>
                                 <CloseIcon sx={{ fontSize: "12px" }} />
@@ -37,7 +37,7 @@ const MessNotificationModal = ({ modalOpen, handleClose, modalState }) => {
                     :
                     <>
                         <div className='flex flex-row mt-2 sticky top-0 px-2'>
-                            <h1 className='text-sm text-sky-700 font-bold my-auto'>Messages</h1>
+                            <h1 className='text-sm text-sky-700 font-bold my-auto sticky top-0'>Messages</h1>
                             <IconButton sx={{ marginLeft: "auto" }} size='small' onClick={handleClose}>
                                 <CloseIcon sx={{ fontSize: "12px" }} />
                             </IconButton>
