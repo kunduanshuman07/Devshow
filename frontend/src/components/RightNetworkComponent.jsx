@@ -7,7 +7,7 @@ const RightNetworkComponent = () => {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user"));
   return (
-    <div className='flex flex-col ml-4 sticky top-0 p-4 cursor-pointer'>
+    <div className='flex flex-col ml-4 sticky top-16 p-4 cursor-pointer'>
       <div className='flex flex-col rounded-lg border'>
         <div className='w- bg-[#0369a1] rounded-lg' style={{ height: "70px" }}>
         </div>

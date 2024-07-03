@@ -9,7 +9,7 @@ const ColabModel = ({ modalOpen, handleClose, project }) => {
             onClose={handleClose}
             sx={{ display: "flex", justifyContent: "center" }}
         >
-            <Box sx={{ background: "white", position: "fixed", marginTop: "40px", width: "600px", border: "none", borderRadius: "5px", display: "flex", flexDirection: "column", cursor: "pointer", overflow: "auto", padding: "10px" }}>
+            <Box sx={{ background: "white", position: "fixed", marginTop: "40px", width: "600px", border: "5px solid white", borderRadius: "5px", display: "flex", flexDirection: "column", cursor: "pointer", overflow: "auto", padding: "10px" }}>
                 <div className='flex flex-row px-2'>
                     <h1 className='text-2xl font-bold text-slate-500'>Apply for colaboration</h1>
                     <IconButton sx={{ marginLeft: "auto" }} size='small' onClick={handleClose}>

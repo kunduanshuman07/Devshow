@@ -19,7 +19,7 @@ const LeftNetworkComponent = ({ sent }) => {
         setModalOpen(true);
     }
     return (
-        <div className='flex flex-col p-4 sticky top-0'>
+        <div className='flex flex-col p-4 sticky top-16'>
             <Button startIcon={<AddIcon />} sx={{
                 textTransform: "none", margin: "auto auto auto 0px", color: "white", background: "#0e7490", padding: "5px 20px", ":hover": {
                     color: "white", background: "#0e7490",

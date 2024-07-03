@@ -20,12 +20,20 @@ const ProjectDetailPage = () => {
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState([]);
   const [commentLoading, setCommentLoading] = useState(false);
+  const [endorseLoading, setEndorseLoading] = useState(false);
+  const [endorsementAbility, setEndorsementAbility] = useState(false);
   const { id } = useParams();
   useEffect(() => {
     const fetchProjectData = async () => {
       const res = await axios.post(`${BACKEND_URL}/projects/project-detail`, { id });
       if (res.status === 200) {
         setProject(res.data?.project);
+        if(res.data?.endorsements.length!==0){
+          setEndorsementAbility(!res.data?.endorsements?.userId === user?._id);
+        }
+        else{
+          setEndorsementAbility(true);
+        }
         setComments(res.data?.comments);
         setLoading(false);
       }
@@ -44,6 +52,15 @@ const ProjectDetailPage = () => {
       setComment('')
     }
   }
+  const handleEndorse = async () => {
+    setEndorseLoading(true);
+    const res = await axios.post(`${BACKEND_URL}/projects/endorse-project`, { id, userId: user?._id });
+    if (res.status === 200) {
+      setProject(res.data?.project);
+      setEndorsementAbility(false);
+      setEndorseLoading(false);
+    }
+  }
   return (
     <div className='px-48 py-4 flex flex-col'>
       <h1 className='text-3xl text-slate-600 font-bold'>{project.title}</h1>
@@ -58,7 +75,10 @@ const ProjectDetailPage = () => {
         <h1 className='font-bold text-xs text-slate-400 mt-1'>~Click to apply</h1>
       </div>}
       <div className='flex flex-row mt-6'>
-        <Button sx={{ textTransform: "none", fontWeight: "bold", }} startIcon={<FlareIcon />}>Endorse this project</Button>
+        {endorsementAbility ?
+          <Button sx={{ textTransform: "none", fontWeight: "bold", }} startIcon={<FlareIcon />} onClick={handleEndorse} disabled={endorseLoading}>Endorse this project {endorseLoading && <CircularProgress sx={{ margin: "2px 10px", color: "#0369a1" }} size={14} />}</Button>
+          :
+          <Button sx={{ textTransform: "none", fontWeight: "bold", }} startIcon={<FlareIcon />} variant='contained'>You have endorsed this project </Button>}
         <Button sx={{ textTransform: "none", fontWeight: "bold", marginLeft: "40px" }} startIcon={<MapsUgcRoundedIcon />} href='#comment-div'>Comment</Button>
       </div>
       <h1 className='text-sm mt-6 text-slate-400 font-bold'>Description</h1>
@@ -116,7 +136,7 @@ const ProjectDetailPage = () => {
               onChange={(e) => setComment(e.target.value)}
             />
           </div>
-          <div className='flex flex-col overflow-auto' style={{ maxHeight: "600px" }}>
+          <div className='flex flex-col overflow-auto bg-[#f1f5f9] rounded-lg p-2' style={{ maxHeight: "600px" }}>
             {commentLoading && <CircularProgress sx={{ margin: "2px auto", color: "#0369a1" }} size={14} />}
             {comments?.map((comm, index) => (
               <div className='p-2 flex flex-row mt-2' key={index}>

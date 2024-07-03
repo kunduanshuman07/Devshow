@@ -21,7 +21,7 @@ const Layout = () => {
             <AppbarComponent setDrawerState={setDrawerState} setRightDrawer={setRightDrawer} />
             <DrawerComponent drawerState={drawerState} setDrawerState={setDrawerState} anchor={'left'} sidebar={sidebar} />
             <DrawerComponent drawerState={rightDrawer} setDrawerState={setRightDrawer} anchor={'right'} sidebar={rightSidebar} />
-            <div className='main'>
+            <div className='main mt-16'>
                 <Routes>
                     <Route path='/' element={<FeedPage />} />
                     <Route path='/new' element={<NewProjectPage />} />

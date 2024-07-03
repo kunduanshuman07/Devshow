@@ -11,7 +11,7 @@ const ColabComponent = ({ projects }) => {
     const navigate = useNavigate();
     return (
         <div className='flex flex-col px-4'>
-            <div className='flex flex-row sticky top-0 p-2 bg-white'>
+            <div className='flex flex-row sticky top-16 p-2 bg-white'>
                 <h1 className='text-2xl my-auto'>Colaboratory Home</h1>
                 <Tooltip title={'The projects in this page requires Colaboration. You can apply if you fit in the skill set.'}>
                     <IconButton sx={{ margin: "auto 10px" }}>
