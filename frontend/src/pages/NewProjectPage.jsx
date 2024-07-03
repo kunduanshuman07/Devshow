@@ -1,4 +1,4 @@
-import { InputLabel, TextField, IconButton, List, ListItem, InputAdornment, Tooltip, Button } from '@mui/material'
+import { InputLabel, TextField, IconButton, List, ListItem, InputAdornment, Tooltip, Button, Switch } from '@mui/material'
 import React, { useRef, useState } from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import { Delete } from '@mui/icons-material';
@@ -28,6 +28,21 @@ const NewProjectPage = () => {
   const [techstacks, settechstacks] = useState([]);
   const [repoLink, setRepoLink] = useState('');
   const [contributors, setContributors] = useState('');
+  const [seekColab, setSeekColab] = useState(false);
+  const [colabDescription, setColabDescription] = useState('');
+  const [colabSkills, setColabSkills] = useState([]);
+  const [colabs, setColabs] = useState('');
+
+  const handleAddColabs = () => {
+    if (colabs.trim()) {
+      setColabSkills([...colabSkills, colabs]);
+      setColabs('');
+    }
+  }
+  const handleDeleteColabSkills = (index) => {
+    const newcolabskills = colabSkills.filter((_, i) => i !== index);
+    setColabSkills(newcolabskills);
+  }
   const handleAddFeature = () => {
     if (featureValue.trim()) {
       setFeatures([...features, featureValue]);
@@ -50,7 +65,7 @@ const NewProjectPage = () => {
   }
   const handleAddProject = async () => {
     setLoading(true);
-    const res = await axios.post(`${BACKEND_URL}/projects/create-project`, { title, description, demoLink, repoLink, contributors, features, techstacks });
+    const res = await axios.post(`${BACKEND_URL}/projects/create-project`, { title, description, demoLink, repoLink, contributors, features, techstacks, seekColab, colabDescription, colabSkills });
     if (res.status === 200) {
       setLoading(false);
       navigate('/');
@@ -185,8 +200,54 @@ const NewProjectPage = () => {
           <TextField size='small' fullWidth type='number' value={contributors} onChange={(e) => setContributors(e.target.value)} />
         </div>
       </div>
+      <div className='flex flex-row mt-4'>
+        <h1 className='font-bold my-auto mr-8'>Seeking Colab?</h1>
+        <Switch onChange={() => setSeekColab(!seekColab)} value={seekColab} />
+      </div>
+      {seekColab && <div className='flex flex-row '>
+        <div className='flex flex-col w-1/2 pt-4'>
+          <InputLabel required sx={{ fontWeight: "bold", fontSize: "14px", marginBottom: "5px" }}>Colaboration Description</InputLabel>
+          <TextField size='small' value={colabDescription} onChange={(e) => setColabDescription(e.target.value)} />
+        </div>
+        <div className='w-1/2 pt-4 flex flex-col ml-4'>
+          <div className='flex flex-col'>
+            <InputLabel required sx={{ fontWeight: "bold", fontSize: "14px", marginBottom: "5px" }}>Required colaboration skills?</InputLabel>
+            <TextField
+              variant="outlined"
+              value={colabs}
+              onChange={(e) => setColabs(e.target.value)}
+              size='small'
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      color="primary"
+                      onClick={handleAddColabs}
+                      sx={{ ml: 1, height: '40px', width: '40px' }}
+                    >
+                      <AddIcon />
+                    </IconButton>
+                  </InputAdornment>
+                )
+              }}
+            />
+          </div>
+          <List sx={{ display: "flex", flexDirection: "column" }}>
+            {colabSkills.map((item, index) => (
+              <ListItem key={index} style={{ display: "flex" }}>
+                <h1 className='text-xs bg-[#f8fafc] rounded-lg py-1 px-2 mr-2'>{index + 1}. {item}</h1>
+                <Tooltip title='Delete this Feature'>
+                  <IconButton size='small' onClick={() => handleDeleteColabSkills(index)}>
+                    <Delete sx={{ fontSize: "14px" }} />
+                  </IconButton>
+                </Tooltip>
+              </ListItem>
+            ))}
+          </List>
+        </div>
+      </div>}
       <Button startIcon={<LibraryAddIcon />} sx={{
-        backgroundColor: "#0369a1", color: "white", textTransform: "none", marginRight: "auto", marginTop: "10px", padding: "5px 20px", ":hover": {
+        backgroundColor: "#0369a1", color: "white", textTransform: "none", marginRight: "auto", marginTop: "20px", padding: "5px 20px", ":hover": {
           backgroundColor: "#0369a1"
         }
       }} size='small' onClick={handleAddProject}>Add Project</Button>

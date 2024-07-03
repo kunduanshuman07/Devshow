@@ -28,8 +28,15 @@ const projectSchema = new mongoose.Schema({
         type: String,
     },
     seekColab: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Boolean,
+    },
+    colabDescription: {
+        type: String,
         default: null
+    },
+    colabSkills: {
+        type: [String],
+        default: [],
     },
     contributors: {
         type: Number,

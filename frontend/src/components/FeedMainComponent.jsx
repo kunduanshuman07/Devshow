@@ -3,13 +3,14 @@ import React from 'react'
 import FlareIcon from '@mui/icons-material/Flare';
 import MapsUgcRoundedIcon from '@mui/icons-material/MapsUgcRounded';
 import { useNavigate } from 'react-router-dom';
-import {convertToIndianFormat} from "../common/timeDateConvertor"
+import { convertToIndianFormat } from "../common/timeDateConvertor"
 const FeedMainComponent = ({ projects }) => {
   const navigate = useNavigate();
   return (
     <div className='w-full p-4 flex flex-col'>
       <h1 className='text-2xl'>Projects Home</h1>
       {projects.map((project, index) => (
+        project.seekColab !== true &&
         <div className='mt-4 p-4 flex flex-col' style={{ border: "1px solid #cbd5e1", borderRadius: "5px" }} key={index}>
           <div className='flex flex-row'>
             <Avatar sx={{ width: "30px", height: "30px", margin: "auto 0px" }} />
