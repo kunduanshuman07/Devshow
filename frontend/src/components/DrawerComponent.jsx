@@ -12,6 +12,10 @@ const DrawerComponent = ({ drawerState, setDrawerState, anchor, sidebar }) => {
         setAuth(false);
         navigate("/login");
     }
+    const handleItemClick = (to) => {
+        setDrawerState(false);
+        navigate(to);
+    }
     return (
         <Drawer
             anchor={anchor}
@@ -40,7 +44,7 @@ const DrawerComponent = ({ drawerState, setDrawerState, anchor, sidebar }) => {
                                 borderRadius: "10px",
                                 cursor: "pointer"
                             }
-                        }} onClick={() => navigate(tabs.to)}>
+                        }} onClick={() => handleItemClick(tabs.to)}>
                             <img src={`/assets/${tabs.title}.svg`} alt={tabs.title} width={15} />
                             <a href={tabs.to} className='ml-3 text-sm'>{tabs.title}</a>
                         </ListItem>

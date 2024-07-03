@@ -6,18 +6,27 @@ import { useParams } from 'react-router-dom'
 import ApiLoadingProgress from '../components/ApiLoadingProgress';
 import { convertToIndianFormat } from '../common/timeDateConvertor';
 import ColabModel from '../components/ColabModel';
+import FlareIcon from '@mui/icons-material/Flare';
+import MapsUgcRoundedIcon from '@mui/icons-material/MapsUgcRounded';
+import { Avatar, Button, CircularProgress, IconButton, TextField } from '@mui/material';
+import AddCommentIcon from '@mui/icons-material/AddComment';
 
 const ProjectDetailPage = () => {
   const [colabModel, setColabModel] = useState(false);
   const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+  const user = JSON.parse(localStorage.getItem("user"));
   const [loading, setLoading] = useState(true);
   const [project, setProject] = useState();
+  const [comment, setComment] = useState('');
+  const [comments, setComments] = useState([]);
+  const [commentLoading, setCommentLoading] = useState(false);
   const { id } = useParams();
   useEffect(() => {
     const fetchProjectData = async () => {
       const res = await axios.post(`${BACKEND_URL}/projects/project-detail`, { id });
       if (res.status === 200) {
         setProject(res.data?.project);
+        setComments(res.data?.comments);
         setLoading(false);
       }
     }
@@ -25,6 +34,15 @@ const ProjectDetailPage = () => {
   }, []);
   if (loading) {
     return <ApiLoadingProgress title={'Loading Project ...'} />
+  }
+  const handleComment = async () => {
+    setCommentLoading(true);
+    const res = await axios.post(`${BACKEND_URL}/projects/add-comment`, { id, comment, userId: user?._id });
+    if (res.status === 200) {
+      setComments(res.data?.comments);
+      setCommentLoading(false);
+      setComment('')
+    }
   }
   return (
     <div className='px-48 py-4 flex flex-col'>
@@ -39,6 +57,24 @@ const ProjectDetailPage = () => {
         <h1 className='font-bold text-white bg-[#10b981] mt-4 mr-auto px-4 py-1 rounded-lg'>Colaboration Required</h1>
         <h1 className='font-bold text-xs text-slate-400 mt-1'>~Click to apply</h1>
       </div>}
+      <div className='flex flex-row mt-6'>
+        <Button sx={{ textTransform: "none", fontWeight: "bold", }} startIcon={<FlareIcon />}>Endorse this project</Button>
+        <Button sx={{ textTransform: "none", fontWeight: "bold", marginLeft: "40px" }} startIcon={<MapsUgcRoundedIcon />} href='#comment-div'>Comment</Button>
+      </div>
+      <h1 className='text-sm mt-6 text-slate-400 font-bold'>Description</h1>
+      <p className='bg-[#f8fafc] p-4 rounded-lg text-xs mt-2'>{project.description}</p>
+      <h1 className='text-sm mt-4 text-slate-400 font-bold'>Features</h1>
+      <div className='flex flex-col bg-[#f8fafc] p-4 mt-2 rounded-lg'>
+        {project.features?.map((feature, index) => (
+          <p className='text-xs mt-1' key={index}>{index + 1}. {feature}</p>
+        ))}
+      </div>
+      <h1 className='text-sm mt-4 text-slate-400 font-bold'>Technologies Used</h1>
+      <div className='flex flex-col bg-[#f8fafc] p-4 mt-2 rounded-lg'>
+        {project.techstacks?.map((teachstack, index) => (
+          <p className='text-xs mt-1' key={index}>{index + 1}. {teachstack}</p>
+        ))}
+      </div>
       <h1 className='text-sm mt-6 text-slate-400 font-bold'>Images</h1>
       <div className='flex flex-row mt-2 grid grid-cols-6'>
         <div className='rounded-lg border flex flex-col items-center p-4' style={{ width: "130px", height: "130px" }}>
@@ -64,19 +100,33 @@ const ProjectDetailPage = () => {
       <div className='flex flex-row mt-2'>
         <iframe width="400" height="205" src="https://www.youtube.com/embed/33o3s4Vs4Sw?si=jy31-DJ7pFGIfSZD" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
-      <h1 className='text-sm mt-6 text-slate-400 font-bold'>Description</h1>
-      <p className='bg-[#f8fafc] p-4 rounded-lg text-xs mt-2'>{project.description}</p>
-      <h1 className='text-sm mt-4 text-slate-400 font-bold'>Features</h1>
-      <div className='flex flex-col bg-[#f8fafc] p-4 mt-2 rounded-lg'>
-        {project.features?.map((feature, index) => (
-          <p className='text-xs mt-1' key={index}>{index + 1}. {feature}</p>
-        ))}
-      </div>
-      <h1 className='text-sm mt-4 text-slate-400 font-bold'>Technologies Used</h1>
-      <div className='flex flex-col bg-[#f8fafc] p-4 mt-2 rounded-lg'>
-        {project.techstacks?.map((teachstack, index) => (
-          <p className='text-xs mt-1' key={index}>{index + 1}. {teachstack}</p>
-        ))}
+      <div className='mt-12' id='comment-div'>
+        <h1 className='text-xl font-bold text-slate-600'>Comments</h1>
+        <div className='border rounded-lg p-4 mt-2 w-2/3 flex flex-col'>
+          <div className='flex flex-row mb-4'>
+            <TextField fullWidth size='small' placeholder='Add a new comment'
+              InputProps={{
+                endAdornment: (
+                  <IconButton onClick={handleComment}>
+                    <AddCommentIcon />
+                  </IconButton>
+                )
+              }}
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+            />
+          </div>
+          <div className='flex flex-col overflow-auto' style={{ maxHeight: "600px" }}>
+            {commentLoading && <CircularProgress sx={{ margin: "2px auto", color: "#0369a1" }} size={14} />}
+            {comments?.map((comm, index) => (
+              <div className='p-2 flex flex-row mt-2' key={index}>
+                <Avatar sx={{ width: "30px", height: "30px", margin: "auto 2px" }} />
+                <p className='ml-2 text-sm w-2/3 my-auto'>{comm?.text}</p>
+                <h1 className='text-xs font-bold text-slate-400 my-auto ml-auto'>{convertToIndianFormat(comm?.createdAt)}</h1>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
       {colabModel && <ColabModel modalOpen={colabModel} handleClose={() => setColabModel(false)} project={project} />}
     </div>
