@@ -20,7 +20,7 @@ const CreatePostPage = () => {
     const res = await axios.post(`${BACKEND_URL}/community/create-post`, {caption, userId: user._id, username: user.username});
     if(res.status===200){
         setLoading(false);
-        navigate('/network');
+        navigate('/community');
     }
   }
   if (loading) {

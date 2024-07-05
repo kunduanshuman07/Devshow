@@ -1,0 +1,38 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from 'react'
+import RightNetworkComponent from '../components/RightNetworkComponent'
+import axios from 'axios'
+import { LinearProgress } from '@mui/material'
+import MiddleNetworkComponent from '../components/MiddleNetworkComponent'
+
+const PostAccesoriesPage = () => {
+    const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+    const [loading, setLoading] = useState(true);
+    const [posts, setPosts] = useState([]);
+    useEffect(() => {
+        const fetchAllPosts = async () => {
+            const res = await axios.get(`${BACKEND_URL}/community/get-all-posts`);
+            if (res.status === 200) {
+                setPosts(res.data?.posts);
+                setLoading(false);
+            }
+        }
+        fetchAllPosts();
+    }, [])
+    if (loading) {
+        return <LinearProgress />
+    }
+    return (
+        <div className="flex flex-row w-full">
+            <div className="w-3/4">
+                <MiddleNetworkComponent posts={posts} setPosts={setPosts}/>
+            </div>
+            <div className="w-2/5">
+                <RightNetworkComponent />
+            </div>
+        </div>
+
+    )
+}
+
+export default PostAccesoriesPage

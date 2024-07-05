@@ -40,3 +40,28 @@ export const getPostDetail = async (req, res) => {
         res.status(500).json({ message: "Error: ", error });
     }
 }
+
+
+export const commentPost = async (req, res) => {
+    const { id, userId, comment } = req.body;
+    try {
+        const post = await Post.findById(id);
+        console.log("Success: /v1/community/comment-post -> Post commented successfully")
+        res.status(200).json({ message: "Post commented successfully", post });
+    } catch (error) {
+        console.log("Error: /v1/community/comment-post ->", error.message);
+        res.status(500).json({ message: "Error: ", error });
+    }
+}
+
+export const savePost = async (req, res) => {
+    const { id, userId } = req.body;
+    try {
+        const post = await Post.findById(id);
+        console.log("Success: /v1/community/save-post -> Post saved successfully")
+        res.status(200).json({ message: "Post saved successfully", post });
+    } catch (error) {
+        console.log("Error: /v1/community/save-post ->", error.message);
+        res.status(500).json({ message: "Error: ", error });
+    }
+}

@@ -12,6 +12,7 @@ import CreatePostPage from '../pages/CreatePostPage';
 import ConnectionsNetworkPage from '../pages/ConnectionsNetworkPage';
 import ColabPage from '../pages/ColabPage';
 import JobPage from '../pages/JobPage';
+import PostAccesoriesPage from '../pages/PostAccesoriesPage';
 
 const Layout = () => {
     const [drawerState, setDrawerState] = useState(false);
@@ -32,6 +33,10 @@ const Layout = () => {
                     <Route path='/my-network' element={<ConnectionsNetworkPage />} />
                     <Route path='/colab' element={<ColabPage />} />
                     <Route path='/jobs' element={<JobPage />} />
+                    <Route path='/saved-posts' element={<PostAccesoriesPage />} />
+                    <Route path='/trending-posts' element={<PostAccesoriesPage />} />
+                    <Route path='/featured-posts' element={<PostAccesoriesPage />} />
+                    <Route path='/my-posts' element={<PostAccesoriesPage />} />
                 </Routes>
             </div>
         </div>

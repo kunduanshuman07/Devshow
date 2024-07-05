@@ -29,7 +29,7 @@ const NetworkPage = () => {
         <LeftNetworkComponent />
       </div>
       <div className="w-4/5">
-        <MiddleNetworkComponent posts={posts} />
+        <MiddleNetworkComponent posts={posts} setPosts={setPosts}/>
       </div>
       <div className="w-2/5">
         <RightNetworkComponent />
