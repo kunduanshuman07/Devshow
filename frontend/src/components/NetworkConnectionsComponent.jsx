@@ -103,6 +103,7 @@ const NetworkConnectionsComponent = ({ tabState, setTabstate }) => {
     return (
         <div className='grid grid-cols-4 gap-3 p-2'>
             {activeData?.map((data, index) => (
+                data?._id!==user?._id &&
                 <div className='rounded-lg shadow-md p-4 flex flex-col bg-white' key={index}>
                     <Avatar sx={{ width: "70px", height: "70px", margin: "5px auto" }} variant='circular' />
                     <h1 className='text-slate-600 font-bold mt-2 mx-auto'>{data?.firstName} {data?.lastName}</h1>

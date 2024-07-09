@@ -36,6 +36,7 @@ const userSchema = new mongoose.Schema({
     experience: {
         type: String,
     },
+    postLikes: [{ type: mongoose.Schema.Types.ObjectId }],
     projects: [{ type: mongoose.Schema.Types.ObjectId }],
     connections: [{ type: mongoose.Schema.Types.ObjectId }],
     requestsSent: [{ type: mongoose.Schema.Types.ObjectId }],

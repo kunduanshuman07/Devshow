@@ -5,8 +5,11 @@ const postSchema = new mongoose.Schema({
     userImage: { type: String },
     username: { type: String },
     caption: { type: String },
-    mediaLink: {type: String},
+    mediaLink: { type: String },
+    likes: [{ type: mongoose.Schema.Types.ObjectId }],
+    likesCount: { type: Number },
     comments: [{ type: mongoose.Schema.Types.ObjectId }],
+    userSaves: [{ type: mongoose.Schema.Types.ObjectId }],
     createdAt: { type: Date, default: Date.now }
 });
 

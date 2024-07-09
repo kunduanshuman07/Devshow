@@ -18,6 +18,11 @@ const RoutesJs = () => {
           <LoginPage />
         </Suspense>
       } />
+      {/* <Route path='/register' element={
+        <Suspense fallback={<LinearProgress />}>
+          <RegisterPage />
+        </Suspense>
+      } /> */}
       <Route path='/*' element={
         <Suspense fallback={<LinearProgress />}>
           {auth ? <Layout /> : <Navigate to="/login" replace />}

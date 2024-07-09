@@ -45,7 +45,7 @@ const LoginPage = () => {
                 <button className='bg-[#0369a1] text-white mt-4 text-md py-1 px-10 rounded-lg' onClick={handleSignin}>Sign In</button>
             </div>
             <div className='border-2 rounded-lg px-9 py-4 mt-4 flex flex-col'>
-                <a className='text-xs mt-1' href='/'>New to Devshow? <span className='text-[#0284c7]'>Create an account</span></a>
+                <a className='text-xs mt-1' href='/register'>New to Devshow? <span className='text-[#0284c7]'>Create an account</span></a>
             </div>
         </div>
     )

@@ -1,11 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
 import Avatar from "@mui/material/Avatar";
 import HdrWeakIcon from '@mui/icons-material/HdrWeak';
-import ModeCommentIcon from '@mui/icons-material/ModeComment';
-import BookmarkIcon from '@mui/icons-material/Bookmark';
+import BookmarkIcon from '@mui/icons-material/BookmarkAddOutlined';
+import BookmarkDoneIcon from '@mui/icons-material/Bookmark';
 import ScreenShareIcon from '@mui/icons-material/ScreenShare';
-import { Button, CircularProgress, IconButton, TextField } from '@mui/material';
+import { Button, CircularProgress } from '@mui/material';
 import { convertToIndianFormat } from "../common/timeDateConvertor"
+import LikeIcon from "@mui/icons-material/Favorite";
 import axios from 'axios';
 
 const MiddleNetworkComponent = ({ posts, setPosts }) => {
@@ -13,11 +15,13 @@ const MiddleNetworkComponent = ({ posts, setPosts }) => {
     const user = JSON.parse(localStorage.getItem("user"));
     const [title, setTitle] = useState('Community');
     const [loading, setLoading] = useState(true);
-    const [startComment, setStartComment] = useState(false);
-    const [commentLoading, setCommentloading] = useState(false);
     useEffect(() => {
         if (window.location.pathname === '/saved-posts') {
             setTitle('Saved');
+            const updatedPosts = posts.filter((post) =>
+                post?.userSaves?.some((userId) => userId === user?._id)
+            );
+            setPosts(updatedPosts);
             setLoading(false);
         }
         else if (window.location.pathname === '/trending-posts') {
@@ -30,15 +34,37 @@ const MiddleNetworkComponent = ({ posts, setPosts }) => {
         }
         else if (window.location.pathname === '/my-posts') {
             setTitle('My');
+            const updatedPosts = posts.filter((post) =>
+                post?.userId === user?._id
+            );
+            setPosts(updatedPosts);
             setLoading(false);
         }
         else {
             setLoading(false);
         }
-    }, [])
-    const handleComment = async () => {
-
+    }, [posts])
+    const handleLike = async (id) => {
+        const res = await axios.post(`${BACKEND_URL}/community/like-post`, { id, userId: user?._id });
+        if (res.status === 200) {
+            const updatedPosts = posts.map((post) =>
+                post._id === res.data.post._id ? res.data.post : post
+            );
+            setPosts(updatedPosts);
+        }
     }
+    const handleSavepost = async (id) => {
+        const res = await axios.post(`${BACKEND_URL}/community/save-post`, { id, userId: user?._id });
+        if (res.status === 200) {
+            const updatedPosts = posts.map((post) =>
+                post._id === res.data.post._id ? res.data.post : post
+            );
+            setPosts(updatedPosts);
+        }
+    }
+    const findSaved = (post) => {
+        return post?.userSaves?.some((x) => x === user?._id) || false;
+    };
     if (loading) {
         return <div className='flex flex-row items-center mt-10'>
             <h1 className='text-sm ml-auto'>Loading .. </h1>
@@ -61,8 +87,8 @@ const MiddleNetworkComponent = ({ posts, setPosts }) => {
                     </div>
                     <img src='/assets/Logo.svg' alt='Network' style={{ width: "200px", height: "200px", margin: "10px auto" }} />
                     <div className='flex flex-row mt-4 ml-4 mr-4'>
-                        <Button startIcon={<ModeCommentIcon />} sx={{ textTransform: "none" }} size='small' onClick={() => setStartComment(true)}>{post.comments?.length}</Button>
-                        <Button startIcon={<BookmarkIcon />} sx={{ textTransform: "none", marginLeft: "20px" }} size='small'>Save</Button>
+                        <Button startIcon={<LikeIcon />} sx={{ textTransform: "none", color: "red" }} size='small' onClick={() => handleLike(post?._id)}>{post.likes?.length}</Button>
+                        {title === 'Community' && <Button startIcon={findSaved(post) ? <BookmarkDoneIcon /> : <BookmarkIcon />} sx={{ textTransform: "none", marginLeft: "20px" }} size='small' onClick={() => handleSavepost(post?._id)}>{findSaved(post) ? 'Saved' : 'Save'}</Button>}
                         <Button startIcon={<ScreenShareIcon />} sx={{ textTransform: "none", marginLeft: "auto" }} size='small'>Share</Button>
                     </div>
                 </div>

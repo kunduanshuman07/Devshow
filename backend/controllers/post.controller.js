@@ -1,4 +1,6 @@
+import Like from "../models/likes.model.js";
 import Post from "../models/posts.model.js";
+import User from "../models/users.model.js";
 
 export const getAllPosts = async (req, res) => {
     try {
@@ -41,15 +43,21 @@ export const getPostDetail = async (req, res) => {
     }
 }
 
-
-export const commentPost = async (req, res) => {
-    const { id, userId, comment } = req.body;
+export const likePost = async (req, res) => {
+    const { id, userId } = req.body;
     try {
         const post = await Post.findById(id);
-        console.log("Success: /v1/community/comment-post -> Post commented successfully")
-        res.status(200).json({ message: "Post commented successfully", post });
+        const newLike = new Like({ userId, postId: id });
+        await newLike.save();
+        const user = await User.findById(userId);
+        user.postLikes.push(post._id);
+        post.likesCount = post.likes.length + 1;
+        post.likes.push(newLike._id);
+        await post.save();
+        console.log("Success: /v1/community/like-post -> Post liked successfully")
+        res.status(200).json({ message: "Post liked successfully", post });
     } catch (error) {
-        console.log("Error: /v1/community/comment-post ->", error.message);
+        console.log("Error: /v1/community/like-post ->", error.message);
         res.status(500).json({ message: "Error: ", error });
     }
 }
@@ -58,6 +66,10 @@ export const savePost = async (req, res) => {
     const { id, userId } = req.body;
     try {
         const post = await Post.findById(id);
+        if(!post.userSaves?.includes(userId)){
+            post.userSaves.push(userId);
+        }
+        await post.save();
         console.log("Success: /v1/community/save-post -> Post saved successfully")
         res.status(200).json({ message: "Post saved successfully", post });
     } catch (error) {
